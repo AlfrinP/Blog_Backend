@@ -1,10 +1,11 @@
 # all the imports
+from blog.blogController import blog_router
 from fastapi import FastAPI
 
 # creating a server with python FastAPI
 app = FastAPI()
 
-# hello world endpoint
+app.include_router(blog_router)
 
 
 @app.get("/")
