@@ -2,15 +2,6 @@
 
 This is a backend API for a blog platform built with FastAPI and MongoDB. It provides CRUD operations for blogs and authors, and is designed to be used with a Next.js frontend.
 
-## Features
-
-- FastAPI for RESTful API endpoints
-- MongoDB for data storage
-- Pydantic models for validation
-- UUID-based blog IDs
-- Author management
-- Recent and featured blog queries
-
 ## Getting Started
 
 ### Prerequisites
@@ -37,16 +28,16 @@ cd Blog_Backend
    ```sh
    pip install -r requirements.txt
    ```
-3. Copy `.env.example` to `.env` and set your MongoDB URI and DB name:
+3. Copy `.env.sample` to `.env` and set your MongoDB URI and DB name:
    ```sh
-   cp .env.example .env
+   cp .env.sample .env
    # Edit .env with your values
    ```
 
 ### Run the Server
 
 ```sh
-uvicorn src/main:app --reload
+uvicorn src.main:app --reload
 ```
 
 ### API Endpoints
@@ -55,24 +46,3 @@ uvicorn src/main:app --reload
 - `/blogs/recent` - Get recent blogs
 - `/blogs/featured` - Get featured blogs
 - `/blogs/{blogId}` - Get, update, or delete a blog by ID
-- `/authors/` - List, create, update, or delete authors
-
-## Project Structure
-
-```
-src/
-  main.py
-  blog/
-    blog.py
-    blogDAO.py
-    blogDTO.py
-    blogController.py
-  author/
-    author.py
-    authorDAO.py
-    authorDTO.py
-```
-
-## License
-
-MIT
