@@ -1,6 +1,6 @@
 from typing import List
 from blog.blog import Blog
-from Db import db
+from DB import db
 
 
 async def getBlogById(blogId: str):

@@ -1,4 +1,4 @@
-from Db import db
+from DB import db
 from typing import List, Dict, Optional
 from author.author import Author
 
