@@ -13,5 +13,6 @@ class Blog(BaseModel):
     category: str
     data: str
     img: str
-    createdAt: datetime = Field(default_factory=datetime.utcnow)
-    featured: bool
+    createdAt: datetime = Field(default_factory=datetime.now)
+    updatedAt: datetime = Field(default_factory=datetime.now)
+    featured: bool = False

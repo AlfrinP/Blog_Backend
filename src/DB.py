@@ -1,15 +1,25 @@
 # import fast api
+import os
 from fastapi import FastAPI
-
-# imports for the MongoDB database connection
 from motor.motor_asyncio import AsyncIOMotorClient
-
-# import for fast api lifespan
 from contextlib import asynccontextmanager
-
 from dotenv import load_dotenv
 
-config = load_dotenv()
+
+load_dotenv()
+
+
+MONGODB_CONNECTION_URI = os.getenv("MONGODB_CONNECTION_URI")
+DB_NAME = os.getenv("DB_NAME")
+
+# Check if required environment variables are set
+if not MONGODB_CONNECTION_URI:
+    raise ValueError(
+        "MONGODB_CONNECTION_URI environment variable is not set. Please check your .env file.")
+
+if not DB_NAME:
+    raise ValueError(
+        "DB_NAME environment variable is not set. Please check your .env file.")
 
 
 @asynccontextmanager
@@ -24,17 +34,19 @@ async def lifespan(app: FastAPI):
 
 
 async def startup_db_client(app):
-    app.mongodb_client = AsyncIOMotorClient(
-        config.MONGODB_CONNECTION_URI)
-    app.mongodb = app.mongodb_client.get_database(config.DB_NAME)
-    print("MongoDB connected.")
+    try:
+        app.state.mongodb_client = AsyncIOMotorClient(MONGODB_CONNECTION_URI)
+        app.state.mongodb = app.state.mongodb_client.get_database(DB_NAME)
+        # Test the connection
+        await app.state.mongodb.list_collection_names()
+        print("MongoDB connected successfully.")
+    except Exception as e:
+        print(f"Failed to connect to MongoDB: {e}")
+        raise e
 
 # method to close the database connection
 
 
 async def shutdown_db_client(app):
-    app.mongodb_client.close()
+    app.state.mongodb_client.close()
     print("Database disconnected.")
-
-# creating a server with python FastAPI
-db = FastAPI(lifespan=lifespan)

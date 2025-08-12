@@ -1,13 +1,13 @@
 from pydantic import BaseModel
+from author.authorDTO import AuthorDto
 
 
-class BlogDTO(BaseModel):
+class BlogCreateRequestDTO(BaseModel):
     title: str
     description: str
-    author: AuthorDTO
+    author: AuthorDto
     timeToRead: str
     category: str
     data: str
     img: str
     featured: bool
-    createdAt: bool

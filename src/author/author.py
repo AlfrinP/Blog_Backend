@@ -8,4 +8,5 @@ class Author(BaseModel):
     authorId: UUID = Field(default_factory=uuid4)
     profilePic: str
     authorName: str
-    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    createdAt: datetime = Field(default_factory=datetime.now)
+    updatedAt: datetime = Field(default_factory=datetime.now)
