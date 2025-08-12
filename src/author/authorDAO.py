@@ -1,6 +1,5 @@
-from DB import db
 from typing import List, Dict, Optional
-from author.author import Author
+from .author import Author
 
 
 class AuthorDAO:

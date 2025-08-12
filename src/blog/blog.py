@@ -1,11 +1,11 @@
 from uuid import UUID, uuid4
-from author.author import Author
+from src.author.author import Author
 from pydantic import BaseModel, Field
 from datetime import datetime
 
 
 class Blog(BaseModel):
-    blogId: UUID = Field(default_factory=uuid4)
+    blogId: UUID = Field(default_factory=uuid4,alias="_id")
     title: str
     description: str
     author: Author

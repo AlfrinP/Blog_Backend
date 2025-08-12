@@ -3,22 +3,23 @@ from typing import List, Optional
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from .blog import Blog
 from .blogDAO import BlogDAO
+from .blogDTO import BlogResponseDTO
 
 
 class BlogService:
     def __init__(self, db: AsyncIOMotorDatabase):
         self.dao = BlogDAO(db)
 
-    async def get_by_id(self, blog_id: str) -> Optional[Blog]:
+    async def get_by_id(self, blog_id: str) -> Optional[BlogResponseDTO]:
         return await self.dao.find_by_id(blog_id)
 
-    async def get_all(self) -> List[Blog]:
+    async def get_all(self) -> List[BlogResponseDTO]:
         return await self.dao.find_all()
 
-    async def get_recent(self) -> List[Blog]:
+    async def get_recent(self) -> List[BlogResponseDTO]:
         return await self.dao.find_recent()
 
-    async def get_featured(self) -> List[Blog]:
+    async def get_featured(self) ->List[BlogResponseDTO]:
         return await self.dao.find_featured()
 
     async def create(self, blog: dict) -> str:

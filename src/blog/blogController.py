@@ -1,12 +1,12 @@
 # src/blog/blogController.py
 from fastapi import APIRouter, Depends, HTTPException
-from typing import List
+from typing import List, Optional
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from blog.blogDTO import BlogCreateRequestDTO
+from src.blog.blogDTO import BlogCreateRequestDTO, BlogResponseDTO
 from .blog import Blog
 from .blogService import BlogService
-from dependencies import get_database  # Fix relative import
+from src.dependencies import get_database  # Fix relative import
 
 blog_router = APIRouter(prefix="/blogs", tags=["blogs"])
 
@@ -15,22 +15,21 @@ def get_blog_service(db: AsyncIOMotorDatabase = Depends(get_database)) -> BlogSe
     return BlogService(db)
 
 
-@blog_router.get("/", response_model=List[Blog])
+@blog_router.get("", response_model=List[BlogResponseDTO])
 async def list_blogs(service: BlogService = Depends(get_blog_service)):
     return await service.get_all()
 
 
-@blog_router.get("/recent", response_model=List[Blog])
+@blog_router.get("/recent", response_model=List[BlogResponseDTO])
 async def recent_blogs(service: BlogService = Depends(get_blog_service)):
     return await service.get_recent()
 
 
-@blog_router.get("/featured", response_model=List[Blog])
+@blog_router.get("/featured", response_model=List[BlogResponseDTO])
 async def featured_blogs(service: BlogService = Depends(get_blog_service)):
     return await service.get_featured()
 
-
-@blog_router.get("/{blog_id}", response_model=Blog)
+@blog_router.get("/{blog_id}", response_model=Optional[BlogResponseDTO])
 async def get_blog(
     blog_id: str,
     service: BlogService = Depends(get_blog_service)
@@ -41,7 +40,7 @@ async def get_blog(
     return blog
 
 
-@blog_router.post("/", response_model=str)
+@blog_router.post("", response_model=str)
 async def create_blog(
     blog: BlogCreateRequestDTO,
     service: BlogService = Depends(get_blog_service)
